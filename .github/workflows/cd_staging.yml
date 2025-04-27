@@ -28,6 +28,7 @@ jobs:
             git pull
 
             pnpm install
+            pnpm prisma generate
             pnpm run build
 
             pm2 restart fe-server
