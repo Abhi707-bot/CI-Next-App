@@ -12,12 +12,5 @@ jobs:
 
     steps:
       - name: SSH Into Server
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
-          echo "yes" | ssh -i ~/ssh_key ubuntu@3.110.108.159
-          cd CI-Next-App/ && git pull
-          pnpm install
-          pnpm run build
-          pm2 restart fe-server
-          pm2 restart http-server
-          pm2 restart ws-server
+        run: echo "hi"
+          
