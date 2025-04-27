@@ -11,15 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH Into Server
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
-          echo "yes" | ssh -i ~/ssh_key ubuntu@3.110.108.159
-          cd CI-Next-App/ && git pull
-          pnpm install
-          pnpm run build
-          pm2 restart fe-server
-          pm2 restart http-server
-          pm2 restart ws-server
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run SSH commands on EC2
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "Connected to EC2!"
+            # Your commands here
+            cd CI-Next-App/ && git pull
+            pnpm install
+            pnpm run build
+            pm2 restart fe-server
+            pm2 restart http-server
+            pm2 restart ws-server
 
           
