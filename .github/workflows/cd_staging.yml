@@ -24,6 +24,8 @@ jobs:
             cd /home/ubuntu/CI-Next-App/
             git pull
 
+            source ~/.bashrc
+            npm install -g pnpm
             pnpm install
             pnpm run build
 
