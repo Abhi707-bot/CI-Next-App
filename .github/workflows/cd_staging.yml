@@ -1,0 +1,23 @@
+name: CD Staging Workflow
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  redeploy_everything:
+    name: Deploying Everything to Staging Cluster
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH Into Server
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
+          echo "yes" | ssh -i ~/ssh_key root@3.110.108.159
+          cd CI-Next-App/ && git pull
+          pnpm install
+          pnpm run build
+          pm2 restart fe-server
+          pm2 restart http-server
+          pm2 restart ws-server
