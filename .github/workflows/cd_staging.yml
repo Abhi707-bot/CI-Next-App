@@ -23,8 +23,14 @@ jobs:
           port: 22
           script: |
             echo "Connected to EC2!"
-            # Your commands here
-            cd CI-Next-App/ && git pull
+            sudo yum update -y
+            curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+            sudo yum install -y nodejs
+            npm install -g pnpm
+            npm install -g pm2
+            
+            cd /home/ubuntu/CI-Next-App/
+            git pull
             pnpm install
             pnpm run build
             pm2 restart fe-server
