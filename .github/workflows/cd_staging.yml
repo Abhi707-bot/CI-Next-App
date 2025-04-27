@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: SSH Into Server
-      - run: |
+        run: |
           echo ${{ secrets.SSH_PRIVATE_KEY }} &> ~/ssh_key
           ssh -i ~/ssh_key root@<ip_address>
           cd CI-Next-App/ && git pull
